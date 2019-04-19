@@ -1,12 +1,16 @@
 from urllib import urlopen
-import sys
-cmd_arguments = sys.argv
-base_url = "http://en.wikipedia.org/wiki/{0}"
-if len(cmd_arguments) == 2:
-    query = cmd_arguments[1]
-    print(query)
-    res = urlopen(base_url.format(query))
+from constants import wiki_url
+from arg_parser import parseArgs
+
+def call(args):
+    query = args[0]
+    print("making http request to wiki for {0}".format(query))
+    res = urlopen(wiki_url.format(query))
     print(res.read())
     res.close()
-else:
-    print("enter a query string")
+
+def notFound():
+    print("enter the word you want")
+
+if __name__ == "__main__":
+    parseArgs(1, call, notFound)
